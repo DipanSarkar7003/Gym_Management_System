@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const dbConnection = require("./src/config/dbConfig");
 const memberRoute = require("./src/routes/memberRoute");
+const trainerRoute = require("./src/routes/trainerRoute");
 
 // Initialize Express and load environment variables
 dotenv.config();
@@ -23,12 +24,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/v1/api", memberRoute);
-
-// Error handling middleware (optional)
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: "Internal Server Error" });
-});
+app.use("/v1/api", trainerRoute);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

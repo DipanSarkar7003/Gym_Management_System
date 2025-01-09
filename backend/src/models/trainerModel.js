@@ -18,10 +18,16 @@ const trainerSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  photo: {
+  password: {
     type: String,
     required: true,
+    minlength: 6,
+    select: false, // this will not be returned in the query result by default.
   },
+//   photo: {
+//     type: String,
+//     required: true,
+//   },
   joinDate: {
     type: Date,
     required: true,
@@ -35,6 +41,11 @@ const trainerSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    enum: ["Trainer", "Admin"],
+    enum: ["admin", "trainer"],
+    default: "trainer",
   },
 });
+
+const Trainer = mongoose.model("Trainer", trainerSchema);
+
+module.exports = Trainer;
