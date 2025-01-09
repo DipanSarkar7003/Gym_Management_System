@@ -1,16 +1,37 @@
 const express = require("express");
-const app = express();
-require("dotenv").config();
-const dbConnection = require("./config/dbConfig");
+const dotenv = require("dotenv");
+const dbConnection = require("./src/config/dbConfig");
+const memberRoute = require("./src/routes/memberRoute");
 
-app.get("/", function (req, res) {
+// Initialize Express and load environment variables
+dotenv.config();
+const app = express();
+
+// Database connection
+dbConnection();
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Health check route
+app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Server is on !",
+    message: "Server is running!",
   });
 });
 
-dbConnection();
+// Routes
+app.use("/v1/api", memberRoute);
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running on port ${process.env.PORT || 3000}`);
+// Error handling middleware (optional)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
