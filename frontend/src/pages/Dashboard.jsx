@@ -2,6 +2,10 @@ import React, { useContext } from "react";
 import { TrainerContext } from "../context/TrainerContext";
 import { Link } from "react-router-dom";
 
+import { FaPeopleGroup } from "react-icons/fa6";
+import { RiMoneyRupeeCircleLine } from "react-icons/ri";
+import { BsPersonArmsUp } from "react-icons/bs";
+
 function Dashboard() {
   const { trainerData } = useContext(TrainerContext);
   console.log(trainerData);
@@ -73,6 +77,36 @@ function Dashboard() {
               <h1 className="collection-amount">&#8377;400</h1>
             </div>
             <p className="collection-da">25th Feb</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-4">
+        <div className="option_boxes  flex justify-between">
+          <div className="option_box flex flex-col items-center px-2 py-4 rounded-lg bg-[#2C62FF] text-white ">
+            <FaPeopleGroup />
+            <Link to="/members" className="inline-block">
+              <p>Members</p>
+            </Link>
+          </div>
+          <div className="option_box flex flex-col items-center px-2 py-4 rounded-lg bg-red-400 text-white">
+            <RiMoneyRupeeCircleLine />
+            <Link to="/payments">
+              <p>Payments</p>
+            </Link>
+          </div>
+
+          <div className="option_box flex flex-col items-center px-2 py-4 rounded-lg bg-[#34AFFF] text-white">
+              <BsPersonArmsUp />
+            <Link to="/trainers">
+              <p>Trainers</p>
+            </Link>
+          </div>
+          <div className="option_box flex flex-col items-center px-2 py-4 rounded-lg bg-green-400 text-white">
+              <BsPersonArmsUp />
+            <Link to="/trainers">
+              <p>Trainers</p>
+            </Link>
           </div>
         </div>
       </div>

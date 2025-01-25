@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const dbConnection = require("./src/config/dbConfig");
 const memberRoute = require("./src/routes/memberRoute");
 const trainerRoute = require("./src/routes/trainerRoute");
+const paymentRoute = require("./src/routes/paymentRoute");
 const cors = require("cors");
 
 // Initialize Express and load environment variables
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/v1/api", memberRoute);
 app.use("/v1/api", trainerRoute);
+app.use("/v1/api", paymentRoute);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

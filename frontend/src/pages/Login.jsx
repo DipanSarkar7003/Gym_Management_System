@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { TrainerContext } from "../context/TrainerContext";
 import { useNavigate } from "react-router-dom";
 
+import { ToastContainer, toast } from "react-toastify";
+
 function Login() {
   const { setTrainerData, setTrainerIsLoggedin } = useContext(TrainerContext);
 
@@ -12,7 +14,13 @@ function Login() {
     phone: "",
     password: "",
   });
+  //  * Displays a toast notification with a predefined message.
+  //  */
 
+  const notify = (msg) => {
+    console.log("toast");
+    toast(msg);
+  };
   // handling login here
 
   const handleLogin = async (e) => {
@@ -32,14 +40,19 @@ function Login() {
 
     const result = await response.json();
 
-    if (result.ok) {
-      alert(result.message);
-      const trainer = result.trainer;
-      setTrainerData(trainer);
-      localStorage.setItem("token", result.token);
-      setTrainerIsLoggedin(true);
-      navigate("/dashboard");
+    if (!result.ok) {
+      console.log(result);
+      notify(result.message);
+      return;
     }
+
+    notify(result.message);
+    const trainer = result.trainer;
+    setTrainerData(trainer);
+    console.log(result)
+    localStorage.setItem("token", result.token);
+    setTrainerIsLoggedin(true);
+    navigate("/dashboard");
   };
 
   const handleChangeLoginInfo = (e) => {
@@ -108,6 +121,7 @@ function Login() {
           </button>
         </div>
       </form>
+      <ToastContainer color="red" />
     </div>
   );
 }
