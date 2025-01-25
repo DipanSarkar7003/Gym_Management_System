@@ -22,7 +22,8 @@ const trainerSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 6,
-    select: false, // this will not be returned in the query result by default.
+    // select: false,
+     // this will not be returned in the query result by default.
   },
 //   photo: {
 //     type: String,

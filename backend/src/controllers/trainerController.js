@@ -1,5 +1,5 @@
 const Trainer = require("../models/trainerModel");
-
+const bcrypt = require("bcrypt");
 // Create a new trainer
 
 const createTrainer = async (req, res) => {
@@ -28,11 +28,13 @@ const createTrainer = async (req, res) => {
         message: "Trainer already exists",
       });
 
+    const hashPassword = await bcrypt.hash(password, 10);
+    console.log(hashPassword);
     const newTrainer = new Trainer({
       fullName,
       email,
       phone,
-      password,
+      password: hashPassword,
       joinDate,
       monthlySalary,
       role,

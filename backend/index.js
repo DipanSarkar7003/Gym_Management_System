@@ -3,11 +3,13 @@ const dotenv = require("dotenv");
 const dbConnection = require("./src/config/dbConfig");
 const memberRoute = require("./src/routes/memberRoute");
 const trainerRoute = require("./src/routes/trainerRoute");
+const cors = require("cors");
 
 // Initialize Express and load environment variables
 dotenv.config();
 const app = express();
 
+app.use(cors());
 // Database connection
 dbConnection();
 
