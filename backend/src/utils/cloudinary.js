@@ -14,7 +14,9 @@ const uploadToCloudinary = async (filePath) => {
 
     // upload to cloudinary server
     const uploadResult = await cloudinary.uploader
-      .upload(filePath)
+      .upload(filePath ,   {
+        folder: "Gym_Management_System", // Set folder here
+      })
       .catch((err) => console.log(err));
     return uploadResult;
   } catch (error) {

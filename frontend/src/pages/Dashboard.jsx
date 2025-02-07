@@ -7,28 +7,28 @@ import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 import { BsPersonArmsUp } from "react-icons/bs";
 
 function Dashboard() {
-  const { trainerData } = useContext(TrainerContext);
-  console.log(trainerData);
+  // const { trainerData } = useContext(TrainerContext);
+  // console.log(trainerData);
 
-  if (!trainerData)
-    return (
-      <div className="h-screen w-full bg-green-100 flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-medium mb-3 ">OOPS ! No data found !</h1>
-        <p className="text-lg capitalize font-medium">
-          please{" "}
-          <Link className="text-blue-600" to={"/login"}>
-            Login
-          </Link>{" "}
-          again !
-        </p>
-      </div>
-    );
+  // if (!trainerData)
+  //   return (
+  //     <div className="h-screen w-full bg-green-100 flex flex-col items-center justify-center">
+  //       <h1 className="text-2xl font-medium mb-3 ">OOPS ! No data found !</h1>
+  //       <p className="text-lg capitalize font-medium">
+  //         please{" "}
+  //         <Link className="text-blue-600" to={"/login"}>
+  //           Login
+  //         </Link>{" "}
+  //         again !
+  //       </p>
+  //     </div>
+  //   );
 
   return (
     <div className="bg-[#F7F8F9] h-screen">
       <div className="flex justify-between items-center px-3 pt-6">
         <h1 className="text-4xl font-bold ">Dashboard</h1>
-        {trainerData.fullName}
+        {/* {trainerData.fullName} */}
       </div>
 
       <div className="p-4 ">

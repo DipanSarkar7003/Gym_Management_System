@@ -49,7 +49,8 @@ function Login() {
     notify(result.message);
     const trainer = result.trainer;
     setTrainerData(trainer);
-    console.log(result)
+    setTrainerIsLoggedin(true);
+    console.log(result);
     localStorage.setItem("token", result.token);
     setTrainerIsLoggedin(true);
     navigate("/dashboard");
