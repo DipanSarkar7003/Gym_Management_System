@@ -53,4 +53,36 @@ const trainerLogin = async (req, res) => {
   }
 };
 
-module.exports = { trainerLogin };
+// protect middleware for authorization
+
+const protect = (req, res, next) => {
+  let token;
+  let jwtData;
+
+  // GET THE TOKEN AND VERIFY IT
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+  if (!token)
+    res.status(403).json({
+      ok: false,
+      message: "Token not provided",
+    });
+
+  jwtData = jwt.verify(token, process.env.JWT_SECRET);
+
+  if (!jwtData.id)
+    return res.status(403).json({
+      ok: false,
+      message: "Invalid token",
+    });
+  console.log(jwtData);
+  
+  next();
+};
+
+module.exports = { trainerLogin, protect };

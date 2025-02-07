@@ -32,7 +32,9 @@ const createPayment = async (req, res) => {
 
 getPayments = async (req, res) => {
   try {
-    const payments = await Payment.find();
+    const payments = await Payment.find()
+      .populate("senderId", "fullName email photo")
+      .populate("receiverId", "fullName email ");
 
     res.status(200).json({
       ok: true,

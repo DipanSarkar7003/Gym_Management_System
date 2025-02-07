@@ -1,9 +1,10 @@
 const Member = require("../models/memberModel");
 const uploadToCloudinary = require("../utils/cloudinary");
+const fs = require("fs");
 // Creating member
 
 const createMember = async function (req, res) {
-  // console.log(req.body);
+  console.log(req.body);
   // console.log(req.file);
 
   try {
@@ -16,15 +17,14 @@ const createMember = async function (req, res) {
       status,
       monthlyBill,
       assignedby,
-      role,
     } = req.body;
 
     const filePath = req.file.path;
 
-    console.log(filePath);
+    // console.log(req.file.path);
 
     // Check if member with same name already exists
-    const existingMember = await Member.findOne({ phone });
+    const existingMember = await Member.findOne({ $or: [{ email }, { phone }] });
 
     if (existingMember) {
       return res.status(400).json({ message: "Member already exists" });
@@ -33,9 +33,7 @@ const createMember = async function (req, res) {
     // if member doesen't exist then upload the photo to cloudinary
 
     const { secure_url } = await uploadToCloudinary(filePath);
-
-    // console.log(secure_url);
-
+    fs.unlinkSync(filePath); // Delete the local file after upload to cloudinary
     // Create new member
     const newMember = new Member({
       fullName,
@@ -47,9 +45,7 @@ const createMember = async function (req, res) {
       status,
       monthlyBill,
       assignedby,
-      role,
     });
-
     await newMember.save();
 
     res.status(201).json({
@@ -70,21 +66,21 @@ const createMember = async function (req, res) {
 // Read member Details
 const getMembers = async function (req, res) {
   console.log("Member Details");
-try{
-  const members = await Member.find()
-  res.status(200).json({
-    ok: true,
-    data: members,
-    message: "Members fetched successfully",
-  })
-}catch{
-  console.log("Error in fetching members", err);
-  res.status(500).json({
-    ok: false,
-    message: "Error in fetching members",
-    error: err.message,
-  })
-}
+  try {
+    const members = await Member.find();
+    res.status(200).json({
+      ok: true,
+      data: members,
+      message: "Members fetched successfully",
+    });
+  } catch {
+    console.log("Error in fetching members", err);
+    res.status(500).json({
+      ok: false,
+      message: "Error in fetching members",
+      error: err.message,
+    });
+  }
 };
 
 // Updating member details

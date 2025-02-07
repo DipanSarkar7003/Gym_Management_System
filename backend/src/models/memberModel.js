@@ -14,13 +14,13 @@ const memberSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
-    match: /^\S+@\S+\.\S+$/,
+    // unique: true,
+    // match: /^\S+@\S+\.\S+$/,
   },
   phone: {
     type: String,
     required: true,
-    unique: true,
+    // unique: true,
   },
   address: {
     type: String,

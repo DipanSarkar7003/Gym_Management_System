@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Members from "./pages/Members";
 import Payments from "./pages/Payments";
+import SingleMember from "./pages/SingleMember";
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/members" element={<Members />} />
           <Route path="/payments" element={<Payments />} />
+          <Route path="/members/:id" element={<SingleMember />} />
         </Routes>
       </BrowserRouter>
     </>
