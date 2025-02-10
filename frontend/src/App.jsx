@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Members from "./pages/Members";
 import Payments from "./pages/Payments";
 import SingleMember from "./pages/SingleMember";
+// import Navbar from "./components/Navbar";
 function App() {
   return (
     <>
@@ -19,6 +20,7 @@ function App() {
           <Route path="/members/:id" element={<SingleMember />} />
         </Routes>
       </BrowserRouter>
+      {/* <Navbar /> */}
     </>
   );
 }

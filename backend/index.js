@@ -5,7 +5,9 @@ const memberRoute = require("./src/routes/memberRoute");
 const trainerRoute = require("./src/routes/trainerRoute");
 const paymentRoute = require("./src/routes/paymentRoute");
 const cors = require("cors");
+const {protect} = require("./src/controllers/authController.js")
 
+console.log(protect)
 // Initialize Express and load environment variables
 dotenv.config();
 const app = express();
@@ -27,7 +29,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/v1/api", memberRoute);
-app.use("/v1/api", trainerRoute);
+app.use("/v1/api",  trainerRoute);
 app.use("/v1/api", paymentRoute);
 
 // Start the server
