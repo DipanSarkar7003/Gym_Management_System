@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function PersonInfoBox({ person }) {
   return (
     <Link
-      to={`/members/${person._id}`}
+      to={`/members/member/${person._id}`}
       className="collection flex justify-between items-center  mb-3 "
     >
       <img

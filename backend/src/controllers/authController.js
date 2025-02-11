@@ -55,7 +55,7 @@ const trainerLogin = async (req, res) => {
 
 // protect middleware for authorization
 
-const protect = (req, res, next) => {
+const protect = async (req, res, next) => {
   let token;
   let jwtData;
 
@@ -81,7 +81,19 @@ const protect = (req, res, next) => {
       message: "Invalid token",
     });
   console.log(jwtData);
-  
+
+  // check if trainer still exists
+
+  const trainer = await Trainer.findById(jwtData.id);
+
+  if (!trainer)
+    return res.status(403).json({
+      ok: false,
+      message: "Authorization denied , Trainer not exist",
+    });
+
+  req.trainer = trainer;
+
   next();
 };
 
