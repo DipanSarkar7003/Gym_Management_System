@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Members from "./pages/Members";
 import Payments from "./pages/Payments";
 import SingleMember from "./pages/SingleMember";
+import AddMember from "./pages/AddMember";
 function App() {
   return (
     <>
@@ -14,11 +15,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/members" element={<Members />} />
           <Route path="/payments" element={<Payments />} />
-          <Route path="/members/:id" element={<SingleMember />} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/members/member/:id" element={<SingleMember />} />
+          <Route path="/members/add" element={<AddMember />} />
         </Routes>
       </BrowserRouter>
+      {/* <Navbar /> */}
     </>
   );
 }

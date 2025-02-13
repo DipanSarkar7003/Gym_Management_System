@@ -75,4 +75,37 @@ const getTrainers = async (erq, res) => {
   }
 };
 
-module.exports = { createTrainer, getTrainers };
+// get single trainer
+
+const getSingleTrainer = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id)
+      return res.status(403).json({
+        ok: false,
+        message: "Please provide trainer id",
+      });
+
+    const trainer = await Trainer.findById(id);
+
+    if (!trainer)
+      return res.status(404).json({
+        ok: false,
+        message: "Trainer not found",
+      });
+
+    res.status(200).json({
+      ok: true,
+      message: "Trainer fetched successfully",
+      data: trainer,
+    });
+  } catch (err) {
+    res.status(404).json({
+      ok: false,
+      message: "Trainer not found",
+      error: err.message,
+    });
+  }
+};
+
+module.exports = { createTrainer, getTrainers, getSingleTrainer };

@@ -3,6 +3,7 @@ import { memberContext } from "../context/MemberContextProvider";
 import PersonInfoBox from "../components/personBox/PersonInfoBox";
 import { CiSearch } from "react-icons/ci";
 import { TrainerContext } from "../context/TrainerContext";
+import Navbar from "../components/Navbar";
 
 function reducer(state, action) {
   console.log(state, action);
@@ -68,47 +69,50 @@ function Members() {
     );
 
   return (
-    <div className="w-full h-screen ">
-      <h2 className="text-3xl font-bold ps-4 mb-3">Members </h2>
+    <>
+      <div className="w-full h-screen ">
+        <h2 className="text-3xl font-bold ps-4 mb-3">Members </h2>
 
-      <div className="searchMember p-4 ">
-        <div className="searchBox flex items-center border rounded-lg  bg-[#F7F7F7] shadow-lg px-4  ">
-          <CiSearch fontSize="25px" className=" me-1" />
-          <input
-            type="text"
-            placeholder="search by name or email"
-            className="   py-3  bg-[#F7F7F7]  inline-block w-full  text-lg  outline-none"
-          />
+        <div className="searchMember p-4 ">
+          <div className="searchBox flex items-center border rounded-lg  bg-[#F7F7F7] shadow-lg px-4  ">
+            <CiSearch fontSize="25px" className=" me-1" />
+            <input
+              type="text"
+              placeholder="search by name or email"
+              className="   py-3  bg-[#F7F7F7]  inline-block w-full  text-lg  outline-none"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="filters flex justify-evenly items-center  bg-[#F5F4F7] m-4 px-1 py-2 shadow-lg">
-        <button
-          className="border  px-6 py-2  rounded-lg bg-white shadow-lg text-slate-900 font-bold capitalize text-lg"
-          onClick={() => dispatch({ type: "active", payload: members })}
-        >
-          active
-        </button>
-        <button
-          className="border  px-6 py-2  rounded-lg bg-white shadow-lg text-slate-900 font-bold capitalize text-lg"
-          onClick={() => dispatch({ type: "inactive", payload: members })}
-        >
-          inactive
-        </button>
-        <button
-          className="border  px-6 py-2  rounded-lg bg-white shadow-lg text-slate-900 font-bold capitalize text-lg"
-          onClick={() => dispatch({ type: "banned", payload: members })}
-        >
-          banned
-        </button>
-      </div>
+        <div className="filters flex justify-evenly items-center  bg-[#F5F4F7] m-4 px-1 py-2 shadow-lg">
+          <button
+            className="border  px-6 py-2  rounded-lg bg-white shadow-lg text-slate-900 font-bold capitalize text-lg"
+            onClick={() => dispatch({ type: "active", payload: members })}
+          >
+            active
+          </button>
+          <button
+            className="border  px-6 py-2  rounded-lg bg-white shadow-lg text-slate-900 font-bold capitalize text-lg"
+            onClick={() => dispatch({ type: "inactive", payload: members })}
+          >
+            inactive
+          </button>
+          <button
+            className="border  px-6 py-2  rounded-lg bg-white shadow-lg text-slate-900 font-bold capitalize text-lg"
+            onClick={() => dispatch({ type: "banned", payload: members })}
+          >
+            banned
+          </button>
+        </div>
 
-      <ul className="p-4 bg-white mx-4 rounded-xl shadow-xl">
-        {memberStatus.map((member) => (
-          <PersonInfoBox key={member._id} person={member} />
-        ))}
-      </ul>
-    </div>
+        <ul className="p-4 bg-white mx-4 rounded-xl shadow-xl">
+          {memberStatus.map((member) => (
+            <PersonInfoBox key={member._id} person={member} />
+          ))}
+        </ul>
+      </div>
+      <Navbar />
+    </>
   );
 }
 
