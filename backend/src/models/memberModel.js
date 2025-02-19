@@ -35,7 +35,7 @@ const memberSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["active", "inactive", "banned"],
-    default: "Active",
+    default: "active",
   },
   monthlyBill: {
     type: Number,

@@ -8,7 +8,7 @@ import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 
 function Navbar() {
   return (
-    <nav className="absolute bottom-0 left-0 w-full flex  justify-around items-center">
+    <nav className="fixed bottom-0 left-0 w-full flex  justify-around items-center bg-white shadow-lg">
       <NavLink
         to="/dashboard"
         className="flex flex-col items-center text-slate-500"

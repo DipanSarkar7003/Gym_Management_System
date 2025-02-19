@@ -19,18 +19,21 @@ const createMember = async function (req, res) {
       assignedby,
     } = req.body;
 
+    // console.log(req.body);
+    // console.log(req)
+
     const filePath = req.file.path;
+    // console.log(filePath);
 
-    // console.log(req.file.path);
 
-    // Check if member with same name already exists
+    // // Check if member with same name already exists
     const existingMember = await Member.findOne({ $or: [{ email }, { phone }] });
 
     if (existingMember) {
       return res.status(400).json({ message: "Member already exists" });
     }
 
-    // if member doesen't exist then upload the photo to cloudinary
+    // // // if member doesen't exist then upload the photo to cloudinary
 
     const { secure_url } = await uploadToCloudinary(filePath);
     fs.unlinkSync(filePath); // Delete the local file after upload to cloudinary

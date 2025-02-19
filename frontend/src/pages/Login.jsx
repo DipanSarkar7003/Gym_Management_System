@@ -52,6 +52,7 @@ function Login() {
     setTrainerIsLoggedin(true);
     console.log(result);
     localStorage.setItem("token", result.token);
+    localStorage.setItem("trainerId", result.trainer._id);
     setTrainerIsLoggedin(true);
     navigate("/dashboard");
   };

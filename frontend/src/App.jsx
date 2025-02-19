@@ -7,6 +7,7 @@ import Members from "./pages/Members";
 import Payments from "./pages/Payments";
 import SingleMember from "./pages/SingleMember";
 import AddMember from "./pages/AddMember";
+import SinglePayment from "./pages/SinglePayment";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/payments" element={<Payments />} />
+          <Route path="/payments/payment/:id" element={<SinglePayment />} />
           <Route path="/members" element={<Members />} />
           <Route path="/members/member/:id" element={<SingleMember />} />
           <Route path="/members/add" element={<AddMember />} />
