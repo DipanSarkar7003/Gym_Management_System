@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
+import { ToastContainer, toast } from "react-toastify";
 
 function AddMember() {
   const [name, setName] = useState("");
@@ -47,6 +48,9 @@ function AddMember() {
       const result = await response.json();
 
       setLoading(false);
+      if (!result.ok) toast(result.message, { type: "error" });
+
+      toast("Member added successfully!", { type: "success" });
       console.log(result);
     } catch (error) {
       console.error(error);
@@ -57,6 +61,8 @@ function AddMember() {
 
   return (
     <>
+      <ToastContainer />
+
       <div className="w-full mb-[100px]">
         <form
           action=""
@@ -181,7 +187,6 @@ function AddMember() {
           </div>
         </form>
       </div>
-
 
       <Navbar />
     </>

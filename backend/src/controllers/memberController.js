@@ -1,6 +1,8 @@
 const Member = require("../models/memberModel");
 const uploadToCloudinary = require("../utils/cloudinary");
 const fs = require("fs");
+const Payment = require("../models/paymentsModel");
+
 // Creating member
 
 const createMember = async function (req, res) {
@@ -25,17 +27,22 @@ const createMember = async function (req, res) {
     const filePath = req.file.path;
     // console.log(filePath);
 
-
     // // Check if member with same name already exists
-    const existingMember = await Member.findOne({ $or: [{ email }, { phone }] });
+    const existingMember = await Member.findOne({
+      $or: [{ email }, { phone }],
+    });
 
     if (existingMember) {
-      return res.status(400).json({ message: "Member already exists" });
+      return res.status(400).json({
+        ok: false,
+        message: "Member already exists with this email or phone number",
+      });
     }
 
     // // // if member doesen't exist then upload the photo to cloudinary
 
     const { secure_url } = await uploadToCloudinary(filePath);
+    console.log(filePath);
     fs.unlinkSync(filePath); // Delete the local file after upload to cloudinary
     // Create new member
     const newMember = new Member({
@@ -67,6 +74,7 @@ const createMember = async function (req, res) {
 };
 
 // Read member Details
+
 const getMembers = async function (req, res) {
   console.log("Member Details");
   try {
@@ -86,10 +94,46 @@ const getMembers = async function (req, res) {
   }
 };
 
+//get single member details
+
+const getMemberById = async function (req, res) {
+  console.log("Single Member Details");
+  try {
+    const member = await Member.findById(req.params.id).populate(
+      "assignedby",
+      "fullName"
+    );
+
+    if (!member) {
+      return res.status(404).json({
+        ok: false,
+        message: "Member not found",
+      });
+    }
+
+    //fetch all payments where sender id matches the member id
+
+    const payments = await Payment.find({ senderId: member._id });
+
+    res.status(200).json({
+      ok: true,
+      data: { ...member.toObject(), payments },
+      message: "Member fetched successfully",
+    });
+  } catch (err) {
+    console.log("Error in fetching member", err);
+    res.status(500).json({
+      ok: false,
+      message: "Error in fetching member",
+      error: err.message,
+    });
+  }
+};
+
 // Updating member details
 
 // Deleting Member
 
 // Ban member
 
-module.exports = { createMember, getMembers };
+module.exports = { createMember, getMembers, getMemberById };
