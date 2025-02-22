@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 function AddMember() {
   const [name, setName] = useState("");
@@ -186,6 +187,10 @@ function AddMember() {
             </button>
           </div>
         </form>
+
+        <p className="text-center mt-3 text-lg">Add a trainer instead ? <Link  to={"/trainers/add"} className ="text-blue-700 font-semibold">
+        Add
+        </Link></p>
       </div>
 
       <Navbar />

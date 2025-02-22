@@ -23,16 +23,21 @@ const trainerSchema = new mongoose.Schema({
     required: true,
     minlength: 6,
     // select: false,
-     // this will not be returned in the query result by default.
+    // this will not be returned in the query result by default.
   },
-//   photo: {
-//     type: String,
-//     required: true,
-//   },
+  photo: {
+    type: String,
+    required: true,
+  },
   joinDate: {
     type: Date,
     required: true,
     default: Date.now,
+  },
+  status: {
+    type: String,
+    enum: ["active", "inactive", "banned"],
+    default: "active",
   },
   monthlySalary: {
     type: Number,

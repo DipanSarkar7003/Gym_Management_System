@@ -10,11 +10,13 @@ const uploadToCloudinary = async (filePath) => {
   });
 
   try {
-    if (!filePath) console.log("No path provided");
-
+    if (!filePath) {
+      console.log("No path provided");
+      return;
+    }
     // upload to cloudinary server
     const uploadResult = await cloudinary.uploader
-      .upload(filePath ,   {
+      .upload(filePath, {
         folder: "Gym_Management_System", // Set folder here
       })
       .catch((err) => console.log(err));

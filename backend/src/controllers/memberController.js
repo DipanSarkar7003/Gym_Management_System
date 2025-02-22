@@ -97,7 +97,6 @@ const getMembers = async function (req, res) {
 //get single member details
 
 const getMemberById = async function (req, res) {
-  console.log("Single Member Details");
   try {
     const member = await Member.findById(req.params.id).populate(
       "assignedby",
@@ -115,9 +114,16 @@ const getMemberById = async function (req, res) {
 
     const payments = await Payment.find({ senderId: member._id });
 
+    let nextBillDate = new Date(member.joinDate); // Start from the join date
+
+    // Increase nextBillDate for each successful payment
+    payments.forEach(() => {
+      nextBillDate.setMonth(nextBillDate.getMonth() + 1);
+    });
+
     res.status(200).json({
       ok: true,
-      data: { ...member.toObject(), payments },
+      data: { ...member.toObject(), payments, nextBillDate },
       message: "Member fetched successfully",
     });
   } catch (err) {

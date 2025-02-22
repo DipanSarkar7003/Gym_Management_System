@@ -28,6 +28,7 @@ function Navbar() {
           Members
         </p>
       </NavLink>
+      
       <Link
         className="flex flex-col items-center bg-[#2C62FF]  p-4 rounded-full "
         to={"/members/add"}
