@@ -15,7 +15,7 @@ function SingleMember() {
   useEffect(() => {
     setLoading(true);
     // Fetch data from API
-    fetch(`${import.meta.env.VITE_BASE_URL}/members/${id}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/members/member/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -50,6 +50,9 @@ function SingleMember() {
             <IoChevronBack fontSize={"30px"} color="white" />
           </button>
           <Link>
+
+
+           
             <CiEdit fontSize={"30px"} />
           </Link>
         </div>

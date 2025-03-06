@@ -136,10 +136,32 @@ const getMemberById = async function (req, res) {
   }
 };
 
+// search member by name , number or email
+
+const searchMember = async function (req, res) {
+  const { q } = req.query;
+
+//   let query = {
+//     $or: [
+//       { fullName: { $regex: q, $options: "i" } }, // Case-insensitive name search
+//       { email: { $regex: q, $options: "i" } }, // Case-insensitive email search
+//     ],
+//   };
+
+//   // If the search term is a number, also search in the phone number field
+//   if (!isNaN(q)) {
+//     query.$or.push({ number: q });
+//   }
+// console.log(query)
+  const members = await Member.find({fullName: q});
+  console.log(members);
+  res.json(members);
+};
+
 // Updating member details
 
 // Deleting Member
 
 // Ban member
 
-module.exports = { createMember, getMembers, getMemberById };
+module.exports = { createMember, getMembers, getMemberById, searchMember };

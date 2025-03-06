@@ -2,7 +2,7 @@ import { useContext, useEffect, useReducer, useState } from "react";
 import { memberContext } from "../context/MemberContextProvider";
 import PersonInfoBox from "../components/personBox/PersonInfoBox";
 import { CiSearch } from "react-icons/ci";
-import { TrainerContext } from "../context/TrainerContext";
+// import { TrainerContext } from "../context/TrainerContext";
 import Navbar from "../components/Navbar";
 
 function reducer(state, action) {
@@ -22,13 +22,12 @@ function reducer(state, action) {
 }
 function Members() {
   const { setMembers, members } = useContext(memberContext);
-  const { jwtToken } = useContext(TrainerContext);
   const [memberStatus, dispatch] = useReducer(reducer, members);
   const [loading, setLoading] = useState(false);
   // console.log(memberStatus);
   const base_url = import.meta.env.VITE_BASE_URL;
   const url = `${base_url}members`;
-  // console.log(jwtToken);
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     const getMembers = async () => {
@@ -51,6 +50,19 @@ function Members() {
     };
     getMembers();
   }, []);
+
+  const handleSearch = (e) => {
+    setSearchInput(e.target.value);
+    if (e.target.value.length === 0) {
+      dispatch({ type: "initial", payload: members });
+    }
+
+    const timeout = setTimeout(() => {
+      console.log("hello"), 3000;
+    });
+
+    clearTimeout(timeout);
+  };
 
   if (loading)
     return (
@@ -80,6 +92,8 @@ function Members() {
               type="text"
               placeholder="search by name or email"
               className="   py-3  bg-[#F7F7F7]  inline-block w-full  text-lg  outline-none"
+              value={searchInput}
+              onChange={(e) => handleSearch(e)}
             />
           </div>
         </div>
