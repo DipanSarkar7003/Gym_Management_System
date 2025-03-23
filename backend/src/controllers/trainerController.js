@@ -1,11 +1,23 @@
 const Trainer = require("../models/trainerModel");
 const bcrypt = require("bcrypt");
+const uploadToCloudinary = require("../utils/cloudinary");
+const fs = require("fs");
 // Create a new trainer
 
 const createTrainer = async (req, res) => {
   try {
-    const { fullName, email, phone, password, joinDate, monthlySalary, role } =
-      req.body;
+    const {
+      fullName,
+      email,
+      phone,
+      password,
+      joinDate,
+      monthlySalary,
+      role,
+      status,
+    } = req.body;
+
+    const filePath = req.file.path;
 
     if (
       !fullName ||
@@ -13,7 +25,8 @@ const createTrainer = async (req, res) => {
       !phone ||
       !password ||
       !joinDate ||
-      !monthlySalary
+      !monthlySalary ||
+      !filePath
     )
       return res.status(403).json({
         ok: false,
@@ -28,6 +41,11 @@ const createTrainer = async (req, res) => {
         message: "Trainer already exists",
       });
 
+    // upload photo to cloudinary
+
+    const { secure_url } = await uploadToCloudinary(filePath, "trainers");
+
+    fs.unlinkSync(filePath); // Delete the local file after upload to cloudinary
     const hashPassword = await bcrypt.hash(password, 10);
     console.log(hashPassword);
     const newTrainer = new Trainer({
@@ -38,6 +56,8 @@ const createTrainer = async (req, res) => {
       joinDate,
       monthlySalary,
       role,
+      photo: secure_url,
+      status,
     });
 
     await newTrainer.save();

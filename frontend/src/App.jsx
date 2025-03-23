@@ -7,6 +7,11 @@ import Members from "./pages/Members";
 import Payments from "./pages/Payments";
 import SingleMember from "./pages/SingleMember";
 import AddMember from "./pages/AddMember";
+import SinglePayment from "./pages/SinglePayment";
+import Authentication from "./pages/Authentication";
+import Profile from "./pages/Profile";
+import AddTrainer from "./pages/AddTrainer";
+import Authorize from "./pages/Authorize";
 function App() {
   return (
     <>
@@ -14,11 +19,64 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/payments" element={<Payments />} />
-          <Route path="/members" element={<Members />} />
-          <Route path="/members/member/:id" element={<SingleMember />} />
-          <Route path="/members/add" element={<AddMember />} />
+          <Route
+            path="/dashboard"
+            element={
+              <Authentication>
+                <Dashboard />
+              </Authentication>
+            }
+          />
+          <Route
+            path="/payments"
+            element={
+              <Authentication>
+                <Payments />
+              </Authentication>
+            }
+          />
+          <Route path="/payments/payment/:id" element={<SinglePayment />} />
+          <Route
+            path="/members"
+            element={
+              <Authentication>
+                <Members />
+              </Authentication>
+            }
+          />
+          <Route
+            path="/members/member/:id"
+            element={
+              <Authentication>
+                <SingleMember />
+              </Authentication>
+            }
+          />
+          <Route
+            path="/members/add"
+            element={
+              <Authentication>
+                <AddMember />
+              </Authentication>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <Authentication>
+                <Profile />
+              </Authentication>
+            }
+          />
+          <Route
+            path="/trainers/add"
+            element={
+              <Authorize role={"admin"}>
+                <AddTrainer />
+              </Authorize>
+            }
+          />
         </Routes>
       </BrowserRouter>
       {/* <Navbar /> */}

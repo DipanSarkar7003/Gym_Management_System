@@ -13,22 +13,22 @@ const trainerLogin = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    console.log(email, password);
 
     // Check if trainer with same email  exists
     const validTrainer = await Trainer.findOne({
       email,
     });
     if (!validTrainer) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials EMAIL" });
     }
 
     // Check if password matches
+    console.log(password)
 
     const isMatch = await bcrypt.compare(password, validTrainer.password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials PASS" });
     }
 
     //   assign JWT token
@@ -57,44 +57,56 @@ const trainerLogin = async (req, res) => {
 
 const protect = async (req, res, next) => {
   let token;
-  let jwtData;
 
-  // GET THE TOKEN AND VERIFY IT
+  try {
+    // Get the token from the request header
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    }
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
+    // If no token, return immediately
+    if (!token) {
+      return res.status(403).json({
+        ok: false,
+        message: "Token not provided",
+      });
+    }
+
+    // Verify the token
+    let jwtData;
+    try {
+      jwtData = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      return res.status(401).json({
+        ok: false,
+        message: "Invalid or expired token",
+        error: error.message,
+      });
+    }
+
+    // Check if trainer still exists
+    const trainer = await Trainer.findById(jwtData.id);
+
+    if (!trainer) {
+      return res.status(403).json({
+        ok: false,
+        message: "Authorization denied, Trainer not exist",
+      });
+    }
+
+    req.trainer = trainer;
+    next(); // Proceed to the next middleware
+  } catch (error) {
+    console.error("Error in token verification", error);
+    res.status(500).json({
+      ok: false,
+      message: "Server error during authentication",
+      error: error.message,
+    });
   }
-  if (!token)
-    res.status(403).json({
-      ok: false,
-      message: "Token not provided",
-    });
-
-  jwtData = jwt.verify(token, process.env.JWT_SECRET);
-
-  if (!jwtData.id)
-    return res.status(403).json({
-      ok: false,
-      message: "Invalid token",
-    });
-  console.log(jwtData);
-
-  // check if trainer still exists
-
-  const trainer = await Trainer.findById(jwtData.id);
-
-  if (!trainer)
-    return res.status(403).json({
-      ok: false,
-      message: "Authorization denied , Trainer not exist",
-    });
-
-  req.trainer = trainer;
-
-  next();
 };
 
 module.exports = { trainerLogin, protect };
