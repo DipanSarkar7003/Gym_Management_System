@@ -31,6 +31,92 @@ function SingleMember() {
       .catch((error) => console.error("Error:", error));
   }, [id]); // Fetch data when the id changes
 
+  async function paymentHandler(e) {
+    const amount = member?.monthlyBill;
+    const senderId = member?._id;
+    const receiverId = localStorage.getItem("trainerId");
+    e.preventDefault();
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        amount,
+        senderId,
+        receiverId,
+      }),
+    });
+    const result = await response.json();
+
+    console.log(amount, senderId, receiverId);
+    console.log(result);
+    console.log(import.meta.env.VITE_RAZORPAY_ID);
+
+    var options = {
+      key: import.meta.env.VITE_RAZORPAY_ID, // Enter the Key ID generated from the Dashboard
+      amount: result.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "Dipan Fitness",
+      description: "Test Transaction",
+      image: "https://example.com/your_logo",
+      order_id: result.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      handler: async function (response) {
+        console.log({
+          ...response,
+        });
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+        const paymentVerifyRes = await fetch(
+          `${import.meta.env.VITE_BASE_URL}order/validate`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({
+              ...response,
+              senderId: member._id,
+              receiverId: localStorage.getItem("trainerId"),
+              amount: member.monthlyBill,
+            }),
+          }
+        );
+        const result = await paymentVerifyRes.json();
+        console.log(result);
+      },
+      prefill: {
+        name: member.fullName,
+        email: member.email,
+        contact: member.phone,
+      },
+      notes: {
+        address: member.address,
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.on("payment.failed", function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
+    });
+
+    rzp1.open();
+
+    // Navigate to payment page
+  }
+
   if (loading) return <div>Loading...</div>;
 
   if (!member) return <div>No Data found </div>;
@@ -50,9 +136,6 @@ function SingleMember() {
             <IoChevronBack fontSize={"30px"} color="white" />
           </button>
           <Link>
-
-
-           
             <CiEdit fontSize={"30px"} />
           </Link>
         </div>
@@ -89,6 +172,14 @@ function SingleMember() {
             <p className="font-bold text-black-600">
               {nextDue || "No  data found"}
             </p>
+          </div>
+          <div>
+            <button
+              className="border px-3 py-1 text-center rounded "
+              onClick={(e) => paymentHandler(e)}
+            >
+              pay
+            </button>
           </div>
         </div>
         <h1 className="font-bold mt-4 leading-loose text-lg ">

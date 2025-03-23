@@ -13,22 +13,22 @@ const trainerLogin = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    console.log(email, password);
 
     // Check if trainer with same email  exists
     const validTrainer = await Trainer.findOne({
       email,
     });
     if (!validTrainer) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials EMAIL" });
     }
 
     // Check if password matches
+    console.log(password)
 
     const isMatch = await bcrypt.compare(password, validTrainer.password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials PASS" });
     }
 
     //   assign JWT token
@@ -54,7 +54,6 @@ const trainerLogin = async (req, res) => {
 };
 
 // protect middleware for authorization
-
 
 const protect = async (req, res, next) => {
   let token;
@@ -109,6 +108,5 @@ const protect = async (req, res, next) => {
     });
   }
 };
-
 
 module.exports = { trainerLogin, protect };
