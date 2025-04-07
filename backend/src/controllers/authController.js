@@ -19,16 +19,16 @@ const trainerLogin = async (req, res) => {
       email,
     });
     if (!validTrainer) {
-      return res.status(401).json({ message: "Invalid credentials EMAIL" });
+      return res.status(401).json({ message: "Invalid credentials " });
     }
 
     // Check if password matches
-    console.log(password)
+    console.log(password);
 
     const isMatch = await bcrypt.compare(password, validTrainer.password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials PASS" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     //   assign JWT token

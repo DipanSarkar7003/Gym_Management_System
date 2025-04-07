@@ -1,13 +1,20 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TrainerContext } from "../context/TrainerContext";
 import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 
 function Login() {
-  const { setTrainerData, setTrainerIsLoggedin } = useContext(TrainerContext);
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, []);
+
+  const { setTrainerData, setTrainerIsLoggedin } = useContext(TrainerContext);
 
   const [trainerInfo, setTrainerInfo] = useState({
     email: "",
@@ -21,6 +28,7 @@ function Login() {
     console.log("toast");
     toast(msg);
   };
+
   // handling login here
 
   const handleLogin = async (e) => {

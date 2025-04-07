@@ -12,6 +12,7 @@ import Authentication from "./pages/Authentication";
 import Profile from "./pages/Profile";
 import AddTrainer from "./pages/AddTrainer";
 import Authorize from "./pages/Authorize";
+import MemberDetailUpdate from "./pages/MemberDetailUpdate";
 function App() {
   return (
     <>
@@ -49,6 +50,14 @@ function App() {
             element={
               <Authentication>
                 <SingleMember />
+              </Authentication>
+            }
+          />
+          <Route
+            path="/members/member/update/:id"
+            element={
+              <Authentication>
+                <MemberDetailUpdate />
               </Authentication>
             }
           />

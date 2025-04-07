@@ -2,9 +2,9 @@ import homeBg from "../assets/images/homeBg.jpg";
 import { Link } from "react-router-dom";
 function Home() {
   return (
-    <div className="home">
+    <div className="home flex justify-center ">
       <div
-        className={`h-screen w-full bg-cover bg-center flex flex-col  justify-end`}
+        className={`h-screen w-full max-w-4xl bg-cover bg-center flex flex-col  justify-end`}
         style={{
           backgroundImage: `url(${homeBg})`,
         }}
