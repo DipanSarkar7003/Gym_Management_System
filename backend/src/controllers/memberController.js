@@ -6,9 +6,6 @@ const Payment = require("../models/paymentsModel");
 // Creating member
 
 const createMember = async function (req, res) {
-  console.log(req.body);
-  // console.log(req.file);
-
   try {
     const {
       fullName,
@@ -42,7 +39,6 @@ const createMember = async function (req, res) {
     // // // if member doesen't exist then upload the photo to cloudinary
 
     const { secure_url } = await uploadToCloudinary(filePath);
-    console.log(filePath);
     fs.unlinkSync(filePath); // Delete the local file after upload to cloudinary
     // Create new member
     const newMember = new Member({
@@ -76,7 +72,6 @@ const createMember = async function (req, res) {
 // Read member Details
 
 const getMembers = async function (req, res) {
-  console.log("Member Details");
   try {
     const members = await Member.find();
     res.status(200).json({
@@ -139,29 +134,73 @@ const getMemberById = async function (req, res) {
 // search member by name , number or email
 
 const searchMember = async function (req, res) {
-  const { q } = req.query;
+  try {
+    const { q } = req.query;
+    console.log(q);
 
-//   let query = {
-//     $or: [
-//       { fullName: { $regex: q, $options: "i" } }, // Case-insensitive name search
-//       { email: { $regex: q, $options: "i" } }, // Case-insensitive email search
-//     ],
-//   };
+    if (!q) {
+      return res.status(400).json({
+        ok: false,
+        message: "Please provide a search query",
+      });
+    }
 
-//   // If the search term is a number, also search in the phone number field
-//   if (!isNaN(q)) {
-//     query.$or.push({ number: q });
-//   }
-// console.log(query)
-  const members = await Member.find({fullName: q});
-  console.log(members);
-  res.json(members);
+    const data = await Member.find({
+      $or: [
+        { fullName: { $regex: q, $options: "i" } },
+        { email: { $regex: q, $options: "i" } },
+        { phone: isNaN(q) ? q : Number(q) }, // Convert q to number if possible
+      ],
+    });
+
+    res.json({ ok: true, data });
+  } catch (error) {
+    console.error("Search error:", error);
+    res.status(500).json({
+      ok: false,
+      message: "Server error while searching members",
+    });
+  }
 };
 
 // Updating member details
+
+const updateMember = async function (req, res) {
+  try {
+    const { id } = req.params;
+    const updatedMember = await Member.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedMember) {
+      return res.status(404).json({
+        ok: false,
+        message: "Member not found",
+      });
+    }
+
+    res.status(200).json({
+      ok: true,
+      data: updatedMember,
+      message: "Member updated successfully",
+    });
+  } catch (err) {
+    res.status(400).json({
+      ok: false,
+      message: err.message,
+    });
+  }
+};
 
 // Deleting Member
 
 // Ban member
 
-module.exports = { createMember, getMembers, getMemberById, searchMember };
+module.exports = {
+  createMember,
+  getMembers,
+  getMemberById,
+  searchMember,
+  updateMember,
+};

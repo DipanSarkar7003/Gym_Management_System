@@ -6,6 +6,7 @@ import { IoChevronBack } from "react-icons/io5";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import MemberDetailUpdate from "./MemberDetailUpdate";
 
 function SingleMember() {
   const navigate = useNavigate();
@@ -135,7 +136,7 @@ function SingleMember() {
           >
             <IoChevronBack fontSize={"30px"} color="white" />
           </button>
-          <Link>
+          <Link to={`/members/member/update/${member._id}`}>
             <CiEdit fontSize={"30px"} />
           </Link>
         </div>
