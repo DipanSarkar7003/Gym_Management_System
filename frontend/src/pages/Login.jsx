@@ -36,7 +36,9 @@ function Login() {
 
     // send login request to backend here
 
-    const url = "http://localhost:3000/v1/api/trainers/login";
+    const url = `${import.meta.env.VITE_BASE_URL}trainers/login`;
+
+   
 
     const response = await fetch(url, {
       method: "POST",
