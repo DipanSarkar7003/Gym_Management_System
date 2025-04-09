@@ -10,7 +10,9 @@ createRoot(document.getElementById("root")).render(
   <TrainerContextProvider>
     <MemberContextProvider>
       <PaymentContextProvider>
-        <App />
+        {/* <div className="max-w-4xl flex "> */}
+          <App />
+        {/* </div> */}
       </PaymentContextProvider>
     </MemberContextProvider>
   </TrainerContextProvider>

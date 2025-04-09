@@ -7,29 +7,7 @@ import Navbar from "../components/Navbar";
 function Payments() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const [loading, setLoading] = useState(false);
-  const { payments, setPayments } = useContext(paymentContext);
-
-  useEffect(() => {
-    async function getPayments() {
-      try {
-        setLoading(true);
-        const url = `${baseUrl}payments`;
-        // fetch payments data from the backend API
-        const response = await fetch(url);
-        const result = await response.json();
-        setPayments(result.data);
-        setLoading(false);
-
-        // set the fetched data to the context
-      } catch (error) {
-        console.error("An error occurred while fetching payments data");
-        return;
-      }
-    }
-    getPayments();
-  }, []);
-
-  console.log(payments);
+  const { payments } = useContext(paymentContext);
 
   if (loading) {
     return (

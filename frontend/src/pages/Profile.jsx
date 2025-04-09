@@ -85,6 +85,7 @@ function Profile() {
 
         <div
           className="bg-[#2C62FF] flex justify-around rounded-lg p-4
+        
       "
         >
           <div className=" text-center">
@@ -99,51 +100,52 @@ function Profile() {
         <h1 className="font-bold mt-4 leading-loose text-lg ">
           Contact Details
         </h1>
+        <div className="overflow-scroll ">
+          <div className="mt-3">
+            <div className="flex items-center justify-between border-b-2 border-gray-300 pb-4">
+              <p className="font-medium text-sm text-gray-600">Email:</p>
+              <p className="font-bold text-gray-700">
+                {trainer?.email || "No  data found"}
+              </p>
+            </div>
+          </div>
+          <div className="mt-3">
+            <div className="flex items-center justify-between border-b-2 border-gray-300 pb-4">
+              <p className="font-medium text-sm text-gray-600">Phone:</p>
+              <p className="font-bold text-gray-700">
+                {trainer?.phone || "No  data found"}
+              </p>
+            </div>
+          </div>
+          <div className="mt-3">
+            <div className="flex items-center justify-between border-b-2 border-gray-300 pb-4">
+              <p className="font-medium text-sm text-gray-600">Role:</p>
+              <p className="font-bold text-gray-700">
+                {trainer?.role || "No  data found"}
+              </p>
+            </div>
+          </div>
+          <div className="mt-3">
+            <div className="flex items-center justify-between border-b-2 border-gray-300 pb-4">
+              <p className="font-medium text-sm text-gray-600">Address:</p>
+              <p className="font-bold text-gray-700">
+                {trainer?.address || "No  data found"}
+              </p>
+            </div>
+          </div>
+          <div className="mt-3">
+            <div className="flex items-center justify-between border-b-2 border-gray-300 pb-4">
+              <p className="font-medium text-sm text-gray-600">Assigned By:</p>
+              <p className="font-bold text-gray-700">
+                {trainer?.assignedby || "No  data found"}
+              </p>
+            </div>
+          </div>
+        </div>
 
-        <div className="mt-3">
-          <div className="flex items-center justify-between border-b-2 border-gray-300 pb-4">
-            <p className="font-medium text-sm text-gray-600">Email:</p>
-            <p className="font-bold text-gray-700">
-              {trainer?.email || "No  data found"}
-            </p>
-          </div>
-        </div>
-        <div className="mt-3">
-          <div className="flex items-center justify-between border-b-2 border-gray-300 pb-4">
-            <p className="font-medium text-sm text-gray-600">Phone:</p>
-            <p className="font-bold text-gray-700">
-              {trainer?.phone || "No  data found"}
-            </p>
-          </div>
-        </div>
-        <div className="mt-3">
-          <div className="flex items-center justify-between border-b-2 border-gray-300 pb-4">
-            <p className="font-medium text-sm text-gray-600">Role:</p>
-            <p className="font-bold text-gray-700">
-              {trainer?.role || "No  data found"}
-            </p>
-          </div>
-        </div>
-        <div className="mt-3">
-          <div className="flex items-center justify-between border-b-2 border-gray-300 pb-4">
-            <p className="font-medium text-sm text-gray-600">Address:</p>
-            <p className="font-bold text-gray-700">
-              {trainer?.address || "No  data found"}
-            </p>
-          </div>
-        </div>
-        <div className="mt-3">
-          <div className="flex items-center justify-between border-b-2 border-gray-300 pb-4">
-            <p className="font-medium text-sm text-gray-600">Assigned By:</p>
-            <p className="font-bold text-gray-700">
-              {trainer?.assignedby || "No  data found"}
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-4">
+        <div className="mt-4 mb-[50px]">
           <button
-            className="flex items-center gap-2 text-gray-700"
+            className="flex items-center gap-2 text-red-600"
             onClick={() => setLogoutPopup(true)}
           >
             {" "}
@@ -153,8 +155,11 @@ function Profile() {
         </div>
       </div>
       {logOutPopup && (
-        <div className="fixed top-0 h-screen w-full bg-[#666666] backdrop-blur-xs opacity-[.7] flex items-center justify-center">
-          <div className="bg-white opacity-1 p-6 rounded-xl">
+        <div
+          className="fixed top-0 h-screen w-full bg-[#666666] backdrop-blur-xs bg-opacity-70
+ flex items-center justify-center"
+        >
+          <div className="bg-white  p-6 rounded-xl">
             <h1 className="text-2xl font-bold">Log Out ?</h1>
             <p className="text-lg mt-3 ">Are you sure want to log out ?</p>
             <div className="flex justify-evenly mt-6">
@@ -174,7 +179,6 @@ function Profile() {
           </div>
         </div>
       )}
-
       <Navbar />
     </>
   );
